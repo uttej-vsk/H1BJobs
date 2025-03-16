@@ -63,7 +63,7 @@ const JobListings = () => {
           <div
             className="container"
             onClick={() => {
-              router.push(`/job/${job._id}`);
+              router.push(`/jobs/${job._id}`);
             }}
           >
             <h3 className="text-xl font-semibold">{job.title}</h3>

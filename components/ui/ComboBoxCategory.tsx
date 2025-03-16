@@ -31,17 +31,18 @@ export function ComboBoxCategory({ category }: { category: Category }) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          size="sm"
+          className="w-[150px] justify-between"
         >
           {value
             ? category.find((category) => category.value === value)?.label
             : `Select category`}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[150px] p-0">
         <Command>
-          <CommandInput placeholder="Search category..." />
+          <CommandInput placeholder="Search..." />
           <CommandList>
             <CommandEmpty>No category found.</CommandEmpty>
             <CommandGroup>

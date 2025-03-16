@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 function PostJobForm() {
-  const router = useRouter();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
