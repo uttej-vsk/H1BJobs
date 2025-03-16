@@ -15,10 +15,6 @@ export default function Home() {
       <main className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <section>
           <div>
-            {/* 
-              1. Add a component that shows the filters
-              2. JobList component that contains all the job components
-            */}
             <Hero />
             <Filters />
             <JobList />
