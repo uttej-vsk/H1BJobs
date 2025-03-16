@@ -2,7 +2,11 @@
 
 import React, { useState } from "react";
 import { createJob } from "@/app/actions";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 function PostJobForm() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -34,6 +38,19 @@ function PostJobForm() {
 
     createJob(form);
     console.log("Form Submitted:", form);
+    // reset form
+    setFormData({
+      title: "",
+      description: "",
+      location: "",
+      salary: "",
+      type: "",
+      companyName: "",
+      applicationURL: "",
+    });
+
+    // send a toast notification
+    toast.success("Your job has been created successfully");
   };
 
   return (
