@@ -14,7 +14,9 @@ function PostJobForm() {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     console.log(name, value);
@@ -82,7 +84,14 @@ function PostJobForm() {
 
             <div className="flex flex-col gap-[10px] mb-4">
               <label htmlFor="type">Job Type</label>
-              <select name="type" id="type">
+              <select
+                name="type"
+                id="type"
+                value={formData.type}
+                onChange={(e) => handleChange(e)}
+                className="border-2 border-gray-300 rounded-lg p-2"
+              >
+                <option value="">Select Job Type</option>
                 <option value="full-time">Full-Time</option>
                 <option value="part-time">Part-Time</option>
                 <option value="contract">Contract</option>
