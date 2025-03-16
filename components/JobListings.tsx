@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getAllJobs } from "@/app/actions";
 import { formatTimestamp, ensureHttpPrefix } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 interface Job {
   _id: string;
@@ -20,6 +21,7 @@ const JobListings = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     setLoading(true);
@@ -58,7 +60,12 @@ const JobListings = () => {
           key={job._id}
           className="flex justify-between items-center border border-gray-300 rounded-lg p-6 hover:shadow-lg transition-shadow mb-4"
         >
-          <div className="container">
+          <div
+            className="container"
+            onClick={() => {
+              router.push(`/job/${job._id}`);
+            }}
+          >
             <h3 className="text-xl font-semibold">{job.title}</h3>
 
             <div className="flex items-center gap-2">

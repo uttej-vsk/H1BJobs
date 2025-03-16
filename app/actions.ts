@@ -1,5 +1,9 @@
 "use server";
-import { insertDb, getAllJobs as getJobsFromDb } from "@/lib/db";
+import {
+  insertDb,
+  getAllJobs as getJobsFromDb,
+  getJobById as getJobByIdFromDb,
+} from "@/lib/db";
 
 export async function createJob(formData: FormData) {
   const title = formData.get("title");
@@ -31,6 +35,16 @@ export async function createJob(formData: FormData) {
   });
   // Update data
   // Revalidate cache
+}
+
+// Server action to get job by ID
+export async function getJobById(id: string) {
+  try {
+    return await getJobByIdFromDb(id);
+  } catch (error) {
+    console.error("Error fetching job by ID:", error);
+    return null;
+  }
 }
 
 // Server action to get all jobs
