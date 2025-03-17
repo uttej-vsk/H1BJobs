@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Button } from "./ui/button";
 
 /**
  * Navbar component for site navigation
@@ -10,34 +11,29 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-white shadow-md py-4">
+    <nav className="bg-white shadow-md py-4 fixed top-0 left-0 right-0 z-10">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link href="/" className="text-xl font-bold">
-          Job Board
+          Talent Visa
         </Link>
 
-        <div className="flex gap-6">
-          <Link
-            href="/jobs"
-            className={`${
-              pathname === "/jobs"
-                ? "text-blue-600 font-semibold"
-                : "text-gray-600 hover:text-blue-500"
-            }`}
+        <div className="flex gap-7">
+          <Button
+            variant="outline"
+            asChild
+            className="bg-blue-500 text-white hover:text-white"
           >
-            Browse Jobs
-          </Link>
-
-          <Link
-            href="/post-job"
-            className={`${
-              pathname === "/post-job"
-                ? "text-blue-600 font-semibold"
-                : "text-gray-600 hover:text-blue-500"
-            }`}
-          >
-            Post a Job
-          </Link>
+            <Link
+              href="/post-job"
+              className={`${
+                pathname === "/post-job"
+                  ? "text-blue-600 font-semibold"
+                  : "text-gray-600 hover:text-blue-500"
+              }`}
+            >
+              Post a Job
+            </Link>
+          </Button>
         </div>
       </div>
     </nav>

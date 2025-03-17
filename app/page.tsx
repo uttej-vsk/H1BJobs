@@ -1,5 +1,4 @@
 import JobList from "./jobs/page";
-import Filters from "@/components/Filters";
 import Hero from "@/components/Hero";
 
 export default function Home() {

@@ -29,9 +29,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
-        {children}
-        <Toaster position="bottom-right" richColors closeButton />
+        <div className="pt-[100px]">
+          <Navbar />
+          {children}
+          <Toaster position="bottom-right" richColors closeButton />
+        </div>
       </body>
     </html>
   );

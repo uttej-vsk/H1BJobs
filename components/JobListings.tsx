@@ -129,7 +129,7 @@ const JobListings = () => {
                   {job.companyName}
                 </span>
                 <span className="text-gray-500 text-sm mt-2">
-                  {formatTimestamp(job.timestamp)}
+                  Added {formatTimestamp(job.timestamp)}
                 </span>
               </div>
 
