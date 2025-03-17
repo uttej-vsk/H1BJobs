@@ -7,7 +7,6 @@ export default function Home() {
     <main className="flex gap-5 flex-wrap items-center justify-center ">
       <section className="w-5xl">
         <Hero />
-        <Filters />
         <JobList />
       </section>
     </main>
