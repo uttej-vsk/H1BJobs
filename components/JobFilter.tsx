@@ -1,11 +1,9 @@
 "use client";
 
 import React from "react";
-import { JobType } from "@/types";
 
 interface FilterProps {
   onFilterChange: (filters: FilterValues) => void;
-  jobTypes: JobType;
 }
 
 export interface FilterValues {
@@ -25,7 +23,6 @@ const JobFilter: React.FC<FilterProps> = ({ onFilterChange }) => {
     location: "",
   });
 
-  // Handle input changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -40,7 +37,6 @@ const JobFilter: React.FC<FilterProps> = ({ onFilterChange }) => {
     onFilterChange(updatedFilters);
   };
 
-  // Handle form reset
   const handleReset = () => {
     const resetFilters = {
       searchTerm: "",
@@ -91,7 +87,6 @@ const JobFilter: React.FC<FilterProps> = ({ onFilterChange }) => {
           >
             <option value="">All Types</option>
             <option value="full-time">Full-Time</option>
-            <option value="part-time">Part-Time</option>
             <option value="contract">Contract</option>
           </select>
         </div>

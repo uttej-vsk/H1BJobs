@@ -5,7 +5,6 @@ import { getAllJobs } from "@/app/actions";
 import { formatTimestamp, ensureHttpPrefix } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import JobFilter, { FilterValues } from "./JobFilter";
-import { JobType } from "@/types";
 
 interface Job {
   _id: string;
@@ -29,11 +28,6 @@ const JobListings = () => {
     location: "",
   });
   const router = useRouter();
-
-  const jobTypes: JobType = [
-    { value: "full-time", label: "Full-Time" },
-    { value: "contract", label: "Contract" },
-  ];
 
   useEffect(() => {
     setLoading(true);
@@ -97,7 +91,7 @@ const JobListings = () => {
   return (
     <div className="container mx-auto py-8 px-4">
       {/* Filter component */}
-      <JobFilter onFilterChange={handleFilterChange} jobTypes={jobTypes} />
+      <JobFilter onFilterChange={handleFilterChange} />
 
       {/* Results count */}
       <div className="mb-4 text-gray-600">
@@ -125,7 +119,7 @@ const JobListings = () => {
             <div
               className="container cursor-pointer"
               onClick={() => {
-                router.push(`/job/${job._id}`);
+                router.push(`/jobs/${job._id}`);
               }}
             >
               <h3 className="text-xl font-semibold">{job.title}</h3>

@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { createJob } from "@/app/actions";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 function PostJobForm() {
