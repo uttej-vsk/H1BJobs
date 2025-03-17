@@ -58,7 +58,7 @@ const JobListings = () => {
       {jobs.map((job) => (
         <div
           key={job._id}
-          className="flex justify-between items-center border border-gray-300 rounded-lg p-6 hover:shadow-lg transition-shadow mb-4"
+          className="flex justify-between items-center border border-gray-300 rounded-lg p-6 hover:shadow-lg transition-shadow mb-4 cursor-pointer hover:bg-gray-100"
         >
           <div
             className="container"
