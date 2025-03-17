@@ -21,13 +21,11 @@ function PostJobForm() {
     >
   ) => {
     const { name, value } = e.target;
-    console.log(name, value);
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form data before submission:", formData);
 
     const form = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
@@ -35,8 +33,7 @@ function PostJobForm() {
     });
 
     createJob(form);
-    console.log("Form Submitted:", form);
-    // reset form
+
     setFormData({
       title: "",
       description: "",
@@ -47,7 +44,6 @@ function PostJobForm() {
       applicationURL: "",
     });
 
-    // send a toast notification
     toast.success("Your job has been created successfully");
   };
 

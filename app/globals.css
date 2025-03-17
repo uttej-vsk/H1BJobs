@@ -2,8 +2,6 @@
 
 @plugin "tailwindcss-animate";
 
-@custom-variant dark (&:is(.dark *));
-
 /* Box sizing rules */
 *,
 *::before,

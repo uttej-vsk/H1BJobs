@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
+import { logout } from "@/app/(auth)/actions";
 
 /**
  * Navbar component for site navigation
@@ -16,20 +17,36 @@ const Navbar = () => {
           Talent Visa
         </Link>
 
-        {pathname === "/" && (
-          <Button
-            variant="outline"
-            asChild
-            className="bg-blue-500 text-white hover:text-white"
-          >
-            <Link
-              href="/post-job"
-              className="text-gray-600 hover:text-blue-500"
+        <div className="flex items-center gap-4">
+          {pathname === "/" && (
+            <Button
+              variant="outline"
+              asChild
+              className="bg-blue-500 text-white hover:text-white"
             >
-              Post a Job
-            </Link>
-          </Button>
-        )}
+              <Link
+                href="/post-job"
+                className="text-gray-600 hover:text-blue-500"
+              >
+                Post a Job
+              </Link>
+            </Button>
+          )}
+
+          {pathname !== "/login" && (
+            <form action={logout}>
+              <Button variant="outline" type="submit">
+                Logout
+              </Button>
+            </form>
+          )}
+
+          {pathname === "/login" && (
+            <Button variant="outline" asChild>
+              <Link href="/login">Login</Link>
+            </Button>
+          )}
+        </div>
       </div>
     </nav>
   );

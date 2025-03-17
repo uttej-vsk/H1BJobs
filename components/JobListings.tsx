@@ -4,7 +4,8 @@ import { useEffect, useState, useMemo } from "react";
 import { getAllJobs } from "@/app/actions";
 import { formatTimestamp, ensureHttpPrefix } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import JobFilter, { FilterValues } from "./JobFilter";
+import JobFilter from "./JobFilter";
+import { FilterValues } from "@/lib/types";
 
 interface Job {
   _id: string;

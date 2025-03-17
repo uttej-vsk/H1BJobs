@@ -1,16 +1,7 @@
 "use client";
 
+import { FilterProps, FilterValues } from "@/lib/types";
 import React from "react";
-
-interface FilterProps {
-  onFilterChange: (filters: FilterValues) => void;
-}
-
-export interface FilterValues {
-  searchTerm: string;
-  jobType: string;
-  location: string;
-}
 
 /**
  * Component for filtering job listings
