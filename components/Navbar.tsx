@@ -34,11 +34,9 @@ const Navbar = () => {
           )}
 
           {pathname !== "/login" && (
-            <form action={logout}>
-              <Button variant="outline" type="submit">
-                Logout
-              </Button>
-            </form>
+            <Button variant="outline" type="submit" onClick={logout}>
+              Logout
+            </Button>
           )}
 
           {pathname === "/login" && (
