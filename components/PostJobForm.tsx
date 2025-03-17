@@ -53,13 +53,17 @@ function PostJobForm() {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-2xl font-bold">Post a Job</h1>
+      <h1 className="text-2xl font-bold">
+        Help us find a suitable candidate for you
+      </h1>
 
       <div className="flex w-full max-w-2xl my-6 mx-auto justify-center border-2 border-gray-300 rounded-lg p-6">
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="title">title</label>
+              <label htmlFor="title">
+                Job Title <span className="text-red-500">*</span>
+              </label>
               <input
                 name="title"
                 type="text"
@@ -68,37 +72,38 @@ function PostJobForm() {
                 onChange={(e) => handleChange(e)}
                 placeholder="Eg. Software Engineer"
                 className="border-2 border-gray-300 rounded-lg p-2 w-[300px]"
+                required
               />
             </div>
 
             <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="location">location</label>
+              <label htmlFor="location">Job location</label>
               <input
                 name="location"
                 id="location"
                 value={formData.location}
                 onChange={(e) => handleChange(e)}
-                placeholder="Job Location"
+                placeholder="Eg. Chicago, IL"
                 type="text"
                 className="border-2 border-gray-300 rounded-lg p-2"
               />
             </div>
 
             <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="salary">salary</label>
+              <label htmlFor="salary">Salary</label>
               <input
                 name="salary"
                 id="salary"
                 value={formData.salary}
                 onChange={(e) => handleChange(e)}
-                placeholder="Salary"
+                placeholder="Eg. $100,000"
                 type="text"
                 className="border-2 border-gray-300 rounded-lg p-2"
               />
             </div>
 
             <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="type">Job Type</label>
+              <label htmlFor="type">Type of Job</label>
               <select
                 name="type"
                 id="type"
@@ -114,19 +119,24 @@ function PostJobForm() {
             </div>
 
             <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="companyName">CompanyName</label>
+              <label htmlFor="companyName">
+                Company Name <span className="text-red-500">*</span>
+              </label>
               <input
                 name="companyName"
                 id="companyName"
                 value={formData.companyName}
                 onChange={(e) => handleChange(e)}
-                placeholder="Company Name"
+                placeholder="Eg. Google"
                 className="border-2 border-gray-300 rounded-lg p-2"
+                required
               />
             </div>
 
             <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="applicationURL">ApplicationURL</label>
+              <label htmlFor="applicationURL">
+                Application URL <span className="text-red-500">*</span>
+              </label>
               <input
                 name="applicationURL"
                 id="applicationURL"
@@ -134,20 +144,24 @@ function PostJobForm() {
                 onChange={(e) => handleChange(e)}
                 placeholder="Application URL"
                 className="border-2 border-gray-300 rounded-lg p-2"
+                required
               />
             </div>
           </div>
 
           <div className="flex flex-col gap-[10px] mb-4">
-            <label htmlFor="description">description</label>
+            <label htmlFor="description">
+              Job Description <span className="text-red-500">*</span>
+            </label>
             <textarea
               name="description"
               id="description"
               value={formData.description}
               onChange={(e) => handleChange(e)}
-              placeholder="Job Description"
+              placeholder="Eg. We are looking for a software engineer with 3 years of experience in React and Node.js"
               className="border-2 border-gray-300 rounded-lg p-2"
               rows={10}
+              required
             />
           </div>
 

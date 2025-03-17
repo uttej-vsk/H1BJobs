@@ -17,24 +17,22 @@ const Navbar = () => {
           Talent Visa
         </Link>
 
-        <div className="flex gap-7">
-          <Button
-            variant="outline"
-            asChild
-            className="bg-blue-500 text-white hover:text-white"
+        <Button
+          variant="outline"
+          asChild
+          className="bg-blue-500 text-white hover:text-white"
+        >
+          <Link
+            href={pathname === "/post-job" ? "/" : "/post-job"}
+            className={`${
+              pathname === "/post-job"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-600 hover:text-blue-500"
+            }`}
           >
-            <Link
-              href="/post-job"
-              className={`${
-                pathname === "/post-job"
-                  ? "text-blue-600 font-semibold"
-                  : "text-gray-600 hover:text-blue-500"
-              }`}
-            >
-              Post a Job
-            </Link>
-          </Button>
-        </div>
+            {pathname === "/post-job" ? "Go to Home" : "Post a Job"}
+          </Link>
+        </Button>
       </div>
     </nav>
   );
