@@ -1,5 +1,4 @@
-import PostJobForm from "@/components/PostJobForm";
-
+import { TogglePostJobs } from "@/components/TogglePostJobs";
 export default function PostJob() {
   return (
     // <>
@@ -76,7 +75,7 @@ export default function PostJob() {
     // </>
 
     <>
-      <PostJobForm />
+      <TogglePostJobs />
     </>
   );
 }

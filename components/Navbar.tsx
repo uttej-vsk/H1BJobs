@@ -22,19 +22,19 @@ const Navbar = () => {
             <Button
               variant="outline"
               asChild
-              className="bg-blue-500 text-white hover:text-white"
+              className="bg-blue-500 text-white hover:text-white w-22"
             >
-              <Link
-                href="/post-job"
-                className="text-gray-600 hover:text-blue-500"
-              >
-                Post a Job
-              </Link>
+              <Link href="/post-job">Post a Job</Link>
             </Button>
           )}
 
           {pathname !== "/login" && (
-            <Button variant="outline" type="submit" onClick={logout}>
+            <Button
+              variant="outline"
+              type="submit"
+              onClick={logout}
+              className="bg-blue-500 text-white hover:text-white w-22"
+            >
               Logout
             </Button>
           )}

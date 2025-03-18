@@ -17,6 +17,9 @@ interface Job {
   description: string;
   applicationURL: string;
   timestamp: string;
+  isShared: boolean;
+  source: string;
+  postURL: string;
 }
 
 const JobListings = () => {
@@ -123,7 +126,9 @@ const JobListings = () => {
                 router.push(`/jobs/${job._id}`);
               }}
             >
-              <h3 className="text-xl font-semibold">{job.title}</h3>
+              <h3 className="text-xl font-semibold">
+                {job.title || `Shared from ${job.source}`}
+              </h3>
 
               <div className="flex items-center gap-2">
                 <span className="text-gray-700 font-medium mt-2">
@@ -148,12 +153,16 @@ const JobListings = () => {
 
             <div className="ml-4 shrink-0">
               <a
-                href={ensureHttpPrefix(job.applicationURL)}
+                href={
+                  job.isShared
+                    ? job.postURL
+                    : ensureHttpPrefix(job.applicationURL)
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors whitespace-nowrap"
               >
-                Apply Now
+                {job.isShared ? "View Post" : "Apply Now"}
               </a>
             </div>
           </div>

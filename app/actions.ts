@@ -1,8 +1,9 @@
 "use server";
 import {
-  insertDb,
   getAllJobs as getJobsFromDb,
   getJobById as getJobByIdFromDb,
+  addPostedJobToDb,
+  addSharedJobToDb,
 } from "@/lib/db";
 
 export async function createJob(formData: FormData) {
@@ -24,7 +25,7 @@ export async function createJob(formData: FormData) {
     applicationURL,
   });
 
-  await insertDb({
+  await addPostedJobToDb({
     title,
     description,
     location,
@@ -32,6 +33,27 @@ export async function createJob(formData: FormData) {
     type,
     companyName,
     applicationURL,
+  });
+  // Update data
+  // Revalidate cache
+}
+
+export async function shareJob(formData: FormData) {
+  const source = formData.get("source");
+  const customSource = formData.get("customSource");
+  const postURL = formData.get("postURL");
+
+  console.log({
+    source,
+    customSource,
+    postURL,
+  });
+
+  await addSharedJobToDb({
+    source,
+    customSource,
+    postURL,
+    isShared: true,
   });
   // Update data
   // Revalidate cache
