@@ -12,8 +12,10 @@ export function formatTimestamp(timestamp: string): string {
     const date = new Date(timestamp);
     const now = new Date();
     const diffTime = now.getTime() - date.getTime();
+    console.log(diffTime);
 
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    console.log(diffDays);
 
     if (diffDays === 0) {
       const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
@@ -46,4 +48,19 @@ export function ensureHttpPrefix(url: string): string {
   if (!url) return "#";
 
   return url.match(/^https?:\/\//) ? url : `https://${url}`;
+}
+
+export function extractHiringManagerNameFromLinkedIn(url: string): string {
+  if (!url) throw new Error("URL is required");
+
+  const parts = url.split("/");
+  const hiringManagerPart = parts.findIndex((part) => part.includes("in"));
+
+  if (hiringManagerPart === -1) return "Click to view";
+
+  return parts[hiringManagerPart + 2]
+    .split("-")
+    .splice(0, 2)
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }

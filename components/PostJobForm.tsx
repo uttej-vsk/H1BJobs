@@ -49,7 +49,7 @@ function PostJobForm() {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-2xl font-bold">
+      <h1 className="text-sm font-bold">
         Help us find a suitable candidate for you
       </h1>
 
@@ -166,7 +166,7 @@ function PostJobForm() {
               type="submit"
               className="bg-blue-500 text-white p-2 rounded-lg w-full mx-auto"
             >
-              Submit
+              Post job
             </button>
           </div>
         </form>

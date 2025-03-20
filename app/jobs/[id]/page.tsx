@@ -24,7 +24,7 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
   return (
     <main className="container mx-auto py-10 px-4">
       <Link
-        href="/jobs"
+        href="/"
         className="text-blue-500 hover:text-blue-700 mb-6 inline-block"
       >
         ← Back to all jobs

@@ -5,7 +5,7 @@ function Hero() {
     <div className="mt-32">
       <div className="text-5xl font-bold text-center">
         <h1>
-          H1B sponsored jobs, curated for{" "}
+          H1B jobs, curated for{" "}
           <span className="text-white bg-blue-500 px-2 pb-2 rounded-md inline-flex items-center justify-center">
             you
           </span>

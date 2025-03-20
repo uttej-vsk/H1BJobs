@@ -2,10 +2,15 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { getAllJobs } from "@/app/actions";
-import { formatTimestamp, ensureHttpPrefix } from "@/lib/utils";
+import {
+  formatTimestamp,
+  ensureHttpPrefix,
+  extractHiringManagerNameFromLinkedIn,
+} from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import JobFilter from "./JobFilter";
 import { FilterValues } from "@/lib/types";
+import { Linkedin } from "lucide-react";
 
 interface Job {
   _id: string;
@@ -16,10 +21,17 @@ interface Job {
   type: string;
   description: string;
   applicationURL: string;
-  timestamp: string;
+  posted_job_timestamp: string;
+  shared_job_timestamp: string;
   isShared: boolean;
   source: string;
   postURL: string;
+  recruiterProfileURL: string;
+  hiringManagerProfileURL: string;
+  sharedJobTitle: string;
+  sharedJobType: string;
+  sharedCompanyName: string;
+  timestamp?: string;
 }
 
 const JobListings = () => {
@@ -40,7 +52,7 @@ const JobListings = () => {
         console.log("Jobs fetched:", result);
         setJobs(result);
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         console.error(err);
         setError("Failed to load jobs");
       })
@@ -55,21 +67,21 @@ const JobListings = () => {
       // Filter by search term (check title and company name)
       const matchesSearchTerm =
         !filters.searchTerm ||
-        job.title.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        job.companyName
-          .toLowerCase()
-          .includes(filters.searchTerm.toLowerCase()) ||
-        job.description
-          .toLowerCase()
+        job?.title?.toLowerCase()?.includes(filters.searchTerm.toLowerCase()) ||
+        job?.companyName
+          ?.toLowerCase()
+          ?.includes(filters.searchTerm.toLowerCase()) ||
+        job?.description
+          ?.toLowerCase()
           .includes(filters.searchTerm.toLowerCase());
 
       // Filter by job type
-      const matchesJobType = !filters.jobType || job.type === filters.jobType;
+      const matchesJobType = !filters.jobType || job?.type === filters.jobType;
 
       // Filter by location
       const matchesLocation =
         !filters.location ||
-        job.location.toLowerCase().includes(filters.location.toLowerCase());
+        job?.location?.toLowerCase()?.includes(filters.location.toLowerCase());
 
       // Job must match all active filters
       return matchesSearchTerm && matchesJobType && matchesLocation;
@@ -127,26 +139,62 @@ const JobListings = () => {
               }}
             >
               <h3 className="text-xl font-semibold">
-                {job.title || `Shared from ${job.source}`}
+                {job.title || job.source === "linkedin" ? (
+                  <Linkedin className="w-4 h-4 mr-2" />
+                ) : (
+                  `${
+                    job.source.charAt(0).toUpperCase() + job.source.slice(1)
+                  } job`
+                )}
               </h3>
 
               <div className="flex items-center gap-2">
                 <span className="text-gray-700 font-medium mt-2">
-                  {job.companyName}
+                  {job.isShared && !job.companyName
+                    ? "Shared Job"
+                    : job.companyName}
                 </span>
                 <span className="text-gray-500 text-sm mt-2">
-                  Added {formatTimestamp(job.timestamp)}
+                  Added{" "}
+                  {formatTimestamp(
+                    job.posted_job_timestamp || job.shared_job_timestamp
+                  )}
                 </span>
               </div>
 
               <div className="flex items-center mt-3 text-gray-600">
                 <span className="mr-4">{job.location}</span>
                 <span
-                  className={`px-2 py-1 ${
-                    job.type !== "" && "bg-gray-100 text-gray-700"
-                  } rounded-full text-sm`}
+                  className={`${
+                    job.type
+                      ? "px-2 py-1 bg-gray-100 text-gray-700 rounded-full"
+                      : ""
+                  } text-sm`}
                 >
                   {job.type}
+                </span>
+              </div>
+
+              <div className="flex items-center mt-4 text-gray-600">
+                <span className="mr-4">Hiring Manager</span>
+                <span
+                  className={`px-2 py-1 ${
+                    job.type !== "" && "bg-blue-100 text-blue-700"
+                  } rounded-full text-sm`}
+                >
+                  <a
+                    href={job.hiringManagerProfileURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-blue-600"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    {extractHiringManagerNameFromLinkedIn(
+                      job.hiringManagerProfileURL
+                    )}
+                  </a>
                 </span>
               </div>
             </div>
