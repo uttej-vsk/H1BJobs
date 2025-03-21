@@ -3,6 +3,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
+import crypto from "crypto";
 
 export async function createSession(userId: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
@@ -43,4 +44,26 @@ export async function decrypt(session: string | undefined = "") {
   } catch (error) {
     console.log("Failed to verify session");
   }
+}
+
+export async function hashPassword(password: string) {
+  const salt = crypto.randomBytes(16).toString("hex");
+
+  const hash = crypto
+    .pbkdf2Sync(password, salt, 100000, 64, "sha512")
+    .toString("hex");
+
+  return { hash, salt, password };
+}
+
+export async function verifyPassword(
+  password: string,
+  hash: string,
+  salt: string
+) {
+  const checkHash = crypto
+    .pbkdf2Sync(password, salt, 100000, 64, "sha512")
+    .toString("hex");
+
+  return checkHash === hash;
 }

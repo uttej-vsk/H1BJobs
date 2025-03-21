@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
+import { deleteSession } from "@/app/(auth)/lib/session";
 import { logout } from "@/app/(auth)/actions";
+// import { logout } from "@/app/(auth)/actions";
 
 /**
  * Navbar component for site navigation

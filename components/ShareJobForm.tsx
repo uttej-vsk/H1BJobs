@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { shareJob } from "@/app/actions";
 import { toast } from "sonner";
 
@@ -15,6 +15,11 @@ function ShareJobForm() {
     jobType: "",
     recruiterProfileURL: "",
   });
+
+  // Debug log to confirm component mounting
+  useEffect(() => {
+    console.log("ShareJobForm mounted");
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -65,7 +70,7 @@ function ShareJobForm() {
     <div className="flex flex-col items-center">
       <h1 className="text-sm font-bold">Share a job and help a peer</h1>
 
-      <div className=" w-full max-w-2xl mx-auto border-2 border-gray-300 rounded-lg p-6 mt-4">
+      <div className="w-full max-w-2xl mx-auto border-2 border-gray-300 rounded-lg p-6 mt-4">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-3 flex flex-col gap-2 mb-4">

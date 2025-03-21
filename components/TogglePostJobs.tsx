@@ -26,10 +26,10 @@ export function TogglePostJobs() {
           Share a Job
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="post-job">
+      <TabsContent value="post-job" className="mt-6">
         <PostJobForm />
       </TabsContent>
-      <TabsContent value="share-job">
+      <TabsContent value="share-job" className="mt-6">
         <ShareJobForm />
       </TabsContent>
     </Tabs>
