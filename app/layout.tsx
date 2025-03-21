@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <div className="pt-[100px]">
+        <div>
           <Navbar />
           {children}
           <Toaster position="bottom-right" richColors closeButton />

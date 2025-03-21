@@ -40,7 +40,11 @@ const Navbar = () => {
           )}
 
           {pathname === "/login" && (
-            <Button variant="outline" asChild>
+            <Button
+              variant="outline"
+              asChild
+              className="rounded-lg bg-black text-white"
+            >
               <Link href="/login">Login</Link>
             </Button>
           )}

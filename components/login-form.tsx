@@ -21,11 +21,14 @@ export function LoginForm({
   const { pending } = useFormStatus();
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div
+      className={cn("flex flex-col gap-6 bg-white rounded-xl", className)}
+      {...props}
+    >
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
+          <CardDescription className="text-center text-gray-500">
             Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
@@ -38,8 +41,9 @@ export function LoginForm({
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="john@doe.com"
                   required
+                  className="rounded-lg border-gray-300"
                 />
               </div>
               {state?.errors?.email && (
@@ -55,28 +59,51 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" name="password" type="password" required />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  className="rounded-lg border-gray-300"
+                />
               </div>
               {state?.errors?.password && (
                 <p className="text-sm text-red-500">
                   {state.errors.password[0]}
                 </p>
               )}
-              <Button type="submit" className="w-full" disabled={pending}>
+              <Button
+                type="submit"
+                className="w-full rounded-lg "
+                disabled={pending}
+                variant="black"
+              >
                 Login
               </Button>
-              <Button variant="outline" className="w-full">
+              <div className="flex items-center gap-4">
+                <div className="h-[1px] bg-gray-300 flex-grow"></div>
+                <span className="text-sm text-gray-500">Or</span>
+                <div className="h-[1px] bg-gray-300 flex-grow"></div>
+              </div>
+              <Button
+                variant="outline"
+                className="w-full rounded-lg border-gray-300"
+              >
                 Login with Google
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
-              <a href="#" className="underline underline-offset-4">
+              <a href="/signup" className="underline underline-offset-4">
                 Sign up
               </a>
             </div>
           </form>
         </CardContent>
+        <div className="text-muted-foreground *:[a]:hover:text-secondary text-center text-xs *:[a]:underline *:[a]:underline-offset-4 px-3">
+          By clicking continue, you agree to our{" "}
+          <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+        </div>
       </Card>
     </div>
   );
