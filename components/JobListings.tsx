@@ -93,7 +93,7 @@ const JobListings = () => {
   };
 
   if (loading) {
-    return <div className="text-center my-8">Loading jobs...</div>;
+    return <div className="text-center my-8 text-white">Loading jobs...</div>;
   }
 
   if (error) {
@@ -101,24 +101,24 @@ const JobListings = () => {
   }
 
   if (jobs.length === 0) {
-    return <div className="text-center my-8">No jobs found.</div>;
+    return <div className="text-center my-8 text-white">No jobs found.</div>;
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="container mx-auto py-8">
       {/* Filter component */}
       <JobFilter onFilterChange={handleFilterChange} />
 
       {/* Results count */}
-      <div className="mb-4 text-gray-600">
+      <div className="mb-4 text-gray-400">
         Total {filteredJobs.length} {filteredJobs.length === 1 ? "job" : "jobs"}
       </div>
 
       {filteredJobs.length === 0 ? (
-        <div className="text-center my-8 py-10 bg-gray-50 rounded-lg">
-          <p className="text-gray-500">No jobs match your filter criteria</p>
+        <div className="text-center my-8 py-10 bg-[#071428] rounded-lg border border-[#1a2b4b]">
+          <p className="text-gray-400">No jobs match your filter criteria</p>
           <button
-            className="mt-4 text-blue-600 hover:text-blue-800"
+            className="mt-4 text-[#3b5998] hover:text-blue-400"
             onClick={() =>
               setFilters({ searchTerm: "", jobType: "", location: "" })
             }
@@ -130,7 +130,7 @@ const JobListings = () => {
         filteredJobs.map((job) => (
           <div
             key={job._id}
-            className="flex justify-between items-center border border-gray-300 rounded-lg p-6 hover:shadow-lg transition-shadow mb-4 cursor-pointer hover:bg-gray-100"
+            className="flex justify-between items-center border border-[#1a2b4b] bg-[#071428] rounded-lg p-6 hover:bg-[#0a1729] transition-all mb-4 cursor-pointer"
           >
             <div
               className="container cursor-pointer"
@@ -138,7 +138,7 @@ const JobListings = () => {
                 router.push(`/jobs/${job._id}`);
               }}
             >
-              <h3 className="text-xl font-semibold">
+              <h3 className="text-xl font-semibold text-white flex items-center">
                 {job.title || job.source === "linkedin" ? (
                   <Linkedin className="w-4 h-4 mr-2" />
                 ) : (
@@ -149,7 +149,7 @@ const JobListings = () => {
               </h3>
 
               <div className="flex items-center gap-2">
-                <span className="text-gray-700 font-medium mt-2">
+                <span className="text-gray-300 font-medium mt-2">
                   {job.isShared && !job.companyName
                     ? "Shared Job"
                     : job.companyName}
@@ -162,12 +162,12 @@ const JobListings = () => {
                 </span>
               </div>
 
-              <div className="flex items-center mt-3 text-gray-600">
+              <div className="flex items-center mt-3 text-gray-400">
                 <span className="mr-4">{job.location}</span>
                 <span
                   className={`${
                     job.type
-                      ? "px-2 py-1 bg-gray-100 text-gray-700 rounded-full"
+                      ? "px-2 py-1 bg-[#1a2b4b] text-gray-300 rounded-full"
                       : ""
                   } text-sm`}
                 >
@@ -175,18 +175,18 @@ const JobListings = () => {
                 </span>
               </div>
 
-              <div className="flex items-center mt-4 text-gray-600">
+              <div className="flex items-center mt-4 text-gray-400">
                 <span className="mr-4">Hiring Manager</span>
                 <span
                   className={`px-2 py-1 ${
-                    job.type !== "" && "bg-blue-100 text-blue-700"
+                    job.type !== "" && "bg-[#1a2b4b] text-gray-300"
                   } rounded-full text-sm`}
                 >
                   <a
                     href={job.hiringManagerProfileURL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-blue-600"
+                    className="hover:text-[#3b5998]"
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
@@ -208,7 +208,7 @@ const JobListings = () => {
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors whitespace-nowrap"
+                className="inline-block bg-[#3b5998] text-white px-4 py-2 rounded hover:bg-[#2d4373] transition-colors whitespace-nowrap"
               >
                 {job.isShared ? "View Post" : "Apply Now"}
               </a>

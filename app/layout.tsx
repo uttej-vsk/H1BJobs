@@ -14,9 +14,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`antialiased`}>
-        <div>
+    <html lang="en" className="dark">
+      <body className="antialiased bg-[#050e1d] text-white">
+        <div className="min-h-screen flex flex-col">
           <Navbar />
           {children}
           <Toaster position="bottom-right" richColors closeButton />

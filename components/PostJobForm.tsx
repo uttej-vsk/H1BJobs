@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import { createJob } from "@/app/actions";
 import { toast } from "sonner";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Card, CardContent } from "./ui/card";
 
 function PostJobForm() {
   const [formData, setFormData] = useState({
@@ -48,129 +51,134 @@ function PostJobForm() {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="text-sm font-bold">
+    <div className="flex flex-col items-center text-white">
+      <p className="text-lg font-medium text-gray-300 mb-6">
         Help us find a suitable candidate for you
-      </h1>
+      </p>
 
-      <div className="flex w-full max-w-2xl my-6 mx-auto justify-center border-2 border-gray-300 rounded-lg p-6">
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="title">
-                Job Title <span className="text-red-500">*</span>
+      <Card className="w-full max-w-2xl mx-auto border border-[#1a2b4b] bg-[#071428]">
+        <CardContent className="pt-6">
+          <form onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="title" className="font-medium">
+                  Job Title <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  name="title"
+                  type="text"
+                  id="title"
+                  value={formData.title}
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Eg. Software Engineer"
+                  className="w-full"
+                  required
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="location" className="font-medium">
+                  Job location
+                </label>
+                <Input
+                  name="location"
+                  id="location"
+                  value={formData.location}
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Eg. Chicago, IL"
+                  type="text"
+                  className="w-full"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="salary" className="font-medium">
+                  Salary
+                </label>
+                <Input
+                  name="salary"
+                  id="salary"
+                  value={formData.salary}
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Eg. $100,000"
+                  type="text"
+                  className="w-full"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="type" className="font-medium">
+                  Type of Job
+                </label>
+                <select
+                  name="type"
+                  id="type"
+                  value={formData.type}
+                  onChange={(e) => handleChange(e)}
+                  className="file:text-white placeholder:text-gray-500 selection:bg-primary selection:text-primary-foreground bg-[#071428] border-[#1a2b4b] flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm text-white"
+                >
+                  <option value="">Select Job Type</option>
+                  <option value="full-time">Full-Time</option>
+                  <option value="part-time">Part-Time</option>
+                  <option value="contract">Contract</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="companyName" className="font-medium">
+                  Company Name <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  name="companyName"
+                  id="companyName"
+                  value={formData.companyName}
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Eg. Google"
+                  className="w-full"
+                  required
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="applicationURL" className="font-medium">
+                  Application URL <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  name="applicationURL"
+                  id="applicationURL"
+                  value={formData.applicationURL}
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Application URL"
+                  className="w-full"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2 mt-6">
+              <label htmlFor="description" className="font-medium">
+                Job Description <span className="text-red-500">*</span>
               </label>
-              <input
-                name="title"
-                type="text"
-                id="title"
-                value={formData.title}
+              <textarea
+                name="description"
+                id="description"
+                value={formData.description}
                 onChange={(e) => handleChange(e)}
-                placeholder="Eg. Software Engineer"
-                className="border-2 border-gray-300 rounded-lg p-2 w-[300px]"
+                placeholder="Eg. We are looking for a software engineer with 3 years of experience in React and Node.js"
+                className="file:text-white placeholder:text-gray-500 bg-[#071428] border-[#1a2b4b] flex w-full min-w-0 rounded-md border px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm text-white"
+                rows={10}
                 required
               />
             </div>
 
-            <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="location">Job location</label>
-              <input
-                name="location"
-                id="location"
-                value={formData.location}
-                onChange={(e) => handleChange(e)}
-                placeholder="Eg. Chicago, IL"
-                type="text"
-                className="border-2 border-gray-300 rounded-lg p-2"
-              />
+            <div className="flex justify-center mt-6">
+              <Button type="submit" variant="linkedin" className="w-full">
+                Post job
+              </Button>
             </div>
-
-            <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="salary">Salary</label>
-              <input
-                name="salary"
-                id="salary"
-                value={formData.salary}
-                onChange={(e) => handleChange(e)}
-                placeholder="Eg. $100,000"
-                type="text"
-                className="border-2 border-gray-300 rounded-lg p-2"
-              />
-            </div>
-
-            <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="type">Type of Job</label>
-              <select
-                name="type"
-                id="type"
-                value={formData.type}
-                onChange={(e) => handleChange(e)}
-                className="border-2 border-gray-300 rounded-lg p-2"
-              >
-                <option value="">Select Job Type</option>
-                <option value="full-time">Full-Time</option>
-                <option value="part-time">Part-Time</option>
-                <option value="contract">Contract</option>
-              </select>
-            </div>
-
-            <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="companyName">
-                Company Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                name="companyName"
-                id="companyName"
-                value={formData.companyName}
-                onChange={(e) => handleChange(e)}
-                placeholder="Eg. Google"
-                className="border-2 border-gray-300 rounded-lg p-2"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col gap-[10px] mb-4">
-              <label htmlFor="applicationURL">
-                Application URL <span className="text-red-500">*</span>
-              </label>
-              <input
-                name="applicationURL"
-                id="applicationURL"
-                value={formData.applicationURL}
-                onChange={(e) => handleChange(e)}
-                placeholder="Application URL"
-                className="border-2 border-gray-300 rounded-lg p-2"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-[10px] mb-4">
-            <label htmlFor="description">
-              Job Description <span className="text-red-500">*</span>
-            </label>
-            <textarea
-              name="description"
-              id="description"
-              value={formData.description}
-              onChange={(e) => handleChange(e)}
-              placeholder="Eg. We are looking for a software engineer with 3 years of experience in React and Node.js"
-              className="border-2 border-gray-300 rounded-lg p-2"
-              rows={10}
-              required
-            />
-          </div>
-
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white p-2 rounded-lg w-full mx-auto"
-            >
-              Post job
-            </button>
-          </div>
-        </form>
-      </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 }
