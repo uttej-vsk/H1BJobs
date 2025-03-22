@@ -24,19 +24,21 @@ export function LoginForm({
 
   useEffect(() => {
     if (state?.success) {
-      router.push("/");
+      router.push("/jobs");
     }
   }, [state?.success, router]);
 
   return (
     <div
-      className={cn("flex flex-col gap-6 bg-white rounded-xl", className)}
+      className={cn("flex flex-col gap-6 bg-[#0a1729] rounded-xl", className)}
       {...props}
     >
-      <Card>
+      <Card className="bg-[#0a1729] border-[#1a2b4b]">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
-          <CardDescription className="text-center text-gray-500">
+          <CardTitle className="text-2xl text-center text-white">
+            Welcome back
+          </CardTitle>
+          <CardDescription className="text-center text-gray-400">
             Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
@@ -44,14 +46,16 @@ export function LoginForm({
           <form action={loginAction}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-white">
+                  Email
+                </Label>
                 <Input
                   id="email"
                   name="email"
                   type="email"
                   placeholder="john@doe.com"
                   required
-                  className="rounded-lg border-gray-300"
+                  className="rounded-lg bg-[#071428] border-[#1a2b4b] text-white placeholder:text-gray-500"
                 />
               </div>
               {state?.errors?.email && (
@@ -59,10 +63,12 @@ export function LoginForm({
               )}
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className="text-white">
+                    Password
+                  </Label>
                   <a
                     href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    className="ml-auto inline-block text-sm text-gray-400 underline-offset-4 hover:text-white hover:underline"
                   >
                     Forgot your password?
                   </a>
@@ -72,7 +78,7 @@ export function LoginForm({
                   name="password"
                   type="password"
                   required
-                  className="rounded-lg border-gray-300"
+                  className="rounded-lg bg-[#071428] border-[#1a2b4b] text-white"
                 />
               </div>
               {state?.errors?.password && (
@@ -82,35 +88,50 @@ export function LoginForm({
               )}
               <Button
                 type="submit"
-                className="w-full rounded-lg "
+                className="w-full rounded-lg bg-white text-[#050e1d] hover:bg-gray-200"
                 disabled={pending}
-                variant="black"
               >
                 Login
               </Button>
               <div className="flex items-center gap-4">
-                <div className="h-[1px] bg-gray-300 flex-grow"></div>
-                <span className="text-sm text-gray-500">Or</span>
-                <div className="h-[1px] bg-gray-300 flex-grow"></div>
+                <div className="h-[1px] bg-[#1a2b4b] flex-grow"></div>
+                <span className="text-sm text-gray-400">Or</span>
+                <div className="h-[1px] bg-[#1a2b4b] flex-grow"></div>
               </div>
               <Button
                 variant="outline"
-                className="w-full rounded-lg border-gray-300"
+                className="w-full rounded-lg border-[#1a2b4b] text-white hover:bg-[#1a2b4b]"
               >
                 Login with Google
               </Button>
             </div>
-            <div className="mt-4 text-center text-sm">
+            <div className="mt-4 text-center text-sm text-gray-400">
               Don&apos;t have an account?{" "}
-              <a href="/signup" className="underline underline-offset-4">
+              <a
+                href="/signup"
+                className="text-white underline underline-offset-4 hover:text-gray-200"
+              >
                 Sign up
               </a>
             </div>
           </form>
         </CardContent>
-        <div className="text-muted-foreground *:[a]:hover:text-secondary text-center text-xs *:[a]:underline *:[a]:underline-offset-4 px-3">
+        <div className="text-gray-500 text-center text-xs px-3 pb-6">
           By clicking continue, you agree to our{" "}
-          <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+          <a
+            href="#"
+            className="text-gray-400 underline underline-offset-4 hover:text-white"
+          >
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a
+            href="#"
+            className="text-gray-400 underline underline-offset-4 hover:text-white"
+          >
+            Privacy Policy
+          </a>
+          .
         </div>
       </Card>
     </div>

@@ -6,8 +6,10 @@ import {
   hashPassword,
   verifyPassword,
   createSession,
+  decrypt,
 } from "./lib/session";
 import { createUser, getUserByEmail } from "@/lib/db";
+import { cookies } from "next/headers";
 
 export async function login(prevState: any, formData: FormData) {
   try {
@@ -48,7 +50,7 @@ export async function login(prevState: any, formData: FormData) {
 
 export async function logout() {
   await deleteSession();
-  redirect("/login");
+  redirect("/");
 }
 
 export async function signup(prevState: any, formData: FormData) {
@@ -79,5 +81,18 @@ export async function signup(prevState: any, formData: FormData) {
   } catch (error) {
     console.error("Signup error:", error);
     return { errors: { general: ["An unexpected error occurred"] } };
+  }
+}
+
+export async function checkAuth() {
+  try {
+    const session = (await cookies()).get("session")?.value;
+    if (!session) return { isAuthenticated: false };
+
+    const decrypted = await decrypt(session);
+    return { isAuthenticated: !!decrypted?.userId };
+  } catch (error) {
+    console.error("Auth check error:", error);
+    return { isAuthenticated: false };
   }
 }

@@ -1,13 +1,33 @@
-import JobList from "./jobs/page";
-import Hero from "@/components/Hero";
+import Problem from "@/components/Problem";
+import Solution from "@/components/Solution";
+import Sources from "@/components/Sources";
+import ForContributors from "@/components/ForContributors";
+import EarlyAccess from "@/components/EarlyAccess";
+import CTA from "@/components/CTA";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="flex gap-5 flex-wrap items-center justify-center ">
-      <section className="w-5xl">
-        <Hero />
-        <JobList />
-      </section>
+    <main className="relative min-h-screen w-full overflow-x-hidden">
+      {/* Background gradient elements */}
+      <div className="pointer-events-none fixed inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050e1d] via-[#071428] to-[#050e1d]" />
+        <div className="absolute right-0 top-0 h-[500px] w-[500px] bg-blue-500/5 blur-[100px]" />
+        <div className="absolute bottom-0 left-0 h-[500px] w-[500px] bg-blue-500/5 blur-[100px]" />
+      </div>
+
+      {/* Content container */}
+      <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 md:px-8 lg:px-12">
+        <div className="relative z-10 flex flex-col gap-16 py-16">
+          <Problem />
+          <Solution />
+          <Sources />
+          <ForContributors />
+          <EarlyAccess />
+          <CTA />
+          <Footer />
+        </div>
+      </div>
     </main>
   );
 }
