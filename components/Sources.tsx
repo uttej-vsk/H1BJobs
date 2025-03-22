@@ -1,12 +1,12 @@
 import { MessageSquare, Linkedin, Users, Building, Globe } from "lucide-react";
 
 const sources = [
-  {
-    name: "Social Media Groups",
-    description:
-      "We aggregate H1B job posts from WhatsApp groups, Telegram channels, and Facebook communities.",
-    icon: MessageSquare,
-  },
+  // {
+  //   name: "Social Media Groups",
+  //   description:
+  //     "We aggregate H1B job posts from WhatsApp groups, Telegram channels, and Facebook communities.",
+  //   icon: MessageSquare,
+  // },
   {
     name: "LinkedIn Posts",
     description:
@@ -31,12 +31,12 @@ const sources = [
       "Recruiters can directly submit H1B sponsorship opportunities to our platform.",
     icon: Users,
   },
-  {
-    name: "Job Boards",
-    description:
-      "We scan specialized job boards for positions explicitly mentioning H1B sponsorship.",
-    icon: Globe,
-  },
+  // {
+  //   name: "Job Boards",
+  //   description:
+  //     "We scan specialized job boards for positions explicitly mentioning H1B sponsorship.",
+  //   icon: Globe,
+  // },
 ];
 
 export default function Sources() {
@@ -52,7 +52,7 @@ export default function Sources() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
         {sources.map((source) => (
           <div
             key={source.name}

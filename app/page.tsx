@@ -23,9 +23,9 @@ export default function Home() {
           <Solution />
           <Sources />
           <ForContributors />
-          <EarlyAccess />
+          {/* <EarlyAccess />
           <CTA />
-          <Footer />
+          <Footer /> */}
         </div>
       </div>
     </main>

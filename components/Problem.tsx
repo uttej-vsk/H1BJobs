@@ -32,11 +32,8 @@ export default function Problem() {
     <section className="py-24 md:py-32 bg-[#071428]/30">
       <div className="mx-auto max-w-[58rem] text-center mb-16">
         <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-5xl text-white">
-          The H1B Job Search Challenge
+          Are you having trouble finding H1B jobs?
         </h2>
-        <p className="mt-4 text-gray-400 sm:text-lg">
-          Finding H1B sponsorship opportunities shouldn't be this difficult
-        </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

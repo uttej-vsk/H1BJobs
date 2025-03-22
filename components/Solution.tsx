@@ -9,18 +9,6 @@ const features = [
     icon: Globe2,
   },
   {
-    name: "Advanced Filtering",
-    description:
-      "Filter jobs by location, role, experience level, and specific visa requirements.",
-    icon: Filter,
-  },
-  {
-    name: "Verified Listings",
-    description:
-      "All postings are verified to ensure they come from companies with a history of visa sponsorship.",
-    icon: ShieldCheck,
-  },
-  {
     name: "Direct Applications",
     description:
       "Apply directly to positions or get redirected to the original posting source.",
@@ -33,11 +21,11 @@ export default function Solution() {
     <section className="container space-y-16 py-24 md:py-32">
       <div className="mx-auto max-w-[58rem] text-center">
         <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-5xl text-white">
-          Our Solution
+          What we can do for you
         </h2>
         <p className="mt-4 text-gray-400 sm:text-lg">
-          H1BHub brings together all H1B job opportunities in one place, making
-          the search process simpler and more efficient.
+          Talent Visa brings together all H1B job opportunities in one place,
+          making the search process simpler and more efficient.
         </p>
       </div>
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2">
