@@ -41,7 +41,7 @@ const Navbar = () => {
           onClick={handleLogoClick}
           className="mr-6 flex items-center space-x-2"
         >
-          <span className="font-bold text-white">Talent Visa</span>
+          <span className="font-bold text-white">Status Hired</span>
           <span className="rounded-full bg-[#1a2b4b] px-2 py-0.5 text-xs font-medium text-white">
             Beta
           </span>

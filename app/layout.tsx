@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Talent Visa",
+  title: "Status Hired",
   description: "Find and post H1B sponsored jobs",
 };
 

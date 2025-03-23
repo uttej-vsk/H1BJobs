@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container flex flex-col md:flex-row justify-between">
         <div className="mb-10 md:mb-0">
           <div className="flex items-center space-x-2">
-            <p className="font-semibold text-white">Talent Visa</p>
+            <p className="font-semibold text-white">Status Hired</p>
             <div className="rounded-full bg-[#1a2b4b] px-2 py-0.5 text-xs text-white">
               Beta
             </div>
@@ -153,7 +153,7 @@ export default function Footer() {
       </div>
       <div className="container mt-10 border-t border-[#1a2b4b] pt-6">
         <p className="text-center text-xs text-gray-400">
-          © {new Date().getFullYear()} Talent Visa. All rights reserved.
+          © {new Date().getFullYear()} Status Hired. All rights reserved.
         </p>
       </div>
     </footer>

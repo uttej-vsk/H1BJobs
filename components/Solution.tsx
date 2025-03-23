@@ -24,7 +24,7 @@ export default function Solution() {
           What we can do for you
         </h2>
         <p className="mt-4 text-gray-400 sm:text-lg">
-          Talent Visa brings together all H1B job opportunities in one place,
+          Status Hired brings together all H1B job opportunities in one place,
           making the search process simpler and more efficient.
         </p>
       </div>
