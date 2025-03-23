@@ -13,11 +13,20 @@ import { Label } from "@/components/ui/label";
 import { useActionState } from "react";
 import { signup } from "@/app/(auth)/actions";
 import { useFormStatus } from "react-dom";
+
+const initialState = {
+  errors: {
+    email: [],
+    password: [],
+    firstName: [],
+  },
+};
+
 export function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const [state, signupAction] = useActionState(signup, undefined);
+  const [state, signupAction] = useActionState(signup, initialState);
   const { pending } = useFormStatus();
 
   return (

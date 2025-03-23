@@ -1,9 +1,44 @@
 "use server";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
-import crypto from "crypto";
+
+// Web Crypto API helper functions
+async function getRandomBytes(length: number): Promise<string> {
+  const array = new Uint8Array(length);
+  crypto.getRandomValues(array);
+  return Array.from(array, (byte) => byte.toString(16).padStart(2, "0")).join(
+    ""
+  );
+}
+
+async function pbkdf2(password: string, salt: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(password),
+    "PBKDF2",
+    false,
+    ["deriveBits"]
+  );
+
+  const key = await crypto.subtle.deriveBits(
+    {
+      name: "PBKDF2",
+      salt: encoder.encode(salt),
+      iterations: 100000,
+      hash: "SHA-512",
+    },
+    keyMaterial,
+    512
+  );
+
+  return Array.from(new Uint8Array(key))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
 
 export async function createSession(userId: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
@@ -41,19 +76,15 @@ export async function decrypt(session: string | undefined = "") {
       algorithms: ["HS256"],
     });
     return payload;
-  } catch (error) {
+  } catch {
     console.log("Failed to verify session");
   }
 }
 
 export async function hashPassword(password: string) {
-  const salt = crypto.randomBytes(16).toString("hex");
-
-  const hash = crypto
-    .pbkdf2Sync(password, salt, 100000, 64, "sha512")
-    .toString("hex");
-
-  return { hash, salt, password };
+  const salt = await getRandomBytes(16);
+  const hash = await pbkdf2(password, salt);
+  return { hash, salt };
 }
 
 export async function verifyPassword(
@@ -61,9 +92,6 @@ export async function verifyPassword(
   hash: string,
   salt: string
 ) {
-  const checkHash = crypto
-    .pbkdf2Sync(password, salt, 100000, 64, "sha512")
-    .toString("hex");
-
+  const checkHash = await pbkdf2(password, salt);
   return checkHash === hash;
 }

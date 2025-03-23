@@ -1,12 +1,6 @@
-import { MessageSquare, Linkedin, Users, Building, Globe } from "lucide-react";
+import { Linkedin, Users, Building } from "lucide-react";
 
 const sources = [
-  // {
-  //   name: "Social Media Groups",
-  //   description:
-  //     "We aggregate H1B job posts from WhatsApp groups, Telegram channels, and Facebook communities.",
-  //   icon: MessageSquare,
-  // },
   {
     name: "LinkedIn Posts",
     description:
@@ -47,8 +41,8 @@ export default function Sources() {
           Our Data Sources
         </h2>
         <p className="mt-4 text-muted-foreground sm:text-lg">
-          We're building the most comprehensive H1B job database by aggregating
-          information from multiple sources
+          We&apos;re building the most comprehensive H1B job database by
+          aggregating information from multiple sources
         </p>
       </div>
 

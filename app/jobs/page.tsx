@@ -1,5 +1,4 @@
 import JobListings from "@/components/JobListings";
-import JobListHero from "@/components/JobsListHero";
 
 /**
  * Jobs page that displays all job listings

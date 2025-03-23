@@ -11,7 +11,26 @@ import {
 import { createUser, getUserByEmail } from "@/lib/db";
 import { cookies } from "next/headers";
 
-export async function login(prevState: any, formData: FormData) {
+type LoginState = {
+  errors?: {
+    email?: string[];
+    password?: string[];
+    general?: string[];
+  };
+  success?: boolean;
+};
+
+type SignupState = {
+  errors?: {
+    email?: string[];
+    password?: string[];
+    firstName?: string[];
+    general?: string[];
+  };
+  success?: boolean;
+};
+
+export async function login(prevState: LoginState, formData: FormData) {
   try {
     const email = formData.get("email");
     const password = formData.get("password");
@@ -53,7 +72,7 @@ export async function logout() {
   redirect("/");
 }
 
-export async function signup(prevState: any, formData: FormData) {
+export async function signup(prevState: SignupState, formData: FormData) {
   try {
     const email = formData.get("email")?.toString();
     const password = formData.get("password")?.toString();

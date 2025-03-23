@@ -39,7 +39,7 @@ export default function ForContributors() {
           <p className="text-muted-foreground sm:text-lg mb-8">
             Help connect talented H1B professionals with the right
             opportunities. Share job openings, provide insights, and make a
-            difference in someone's career journey.
+            difference in someone&apos;s career journey.
           </p>
           <Button size="lg" className="mb-4">
             Become a Contributor

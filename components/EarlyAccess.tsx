@@ -28,8 +28,8 @@ export default function EarlyAccess() {
           Be Among the First to Access H1BHub
         </h2>
         <p className="text-muted-foreground sm:text-lg mb-8 max-w-[42rem] mx-auto">
-          We're inviting a limited number of H1B job seekers and information
-          providers to join our platform.
+          We&apos;re inviting a limited number of H1B job seekers and
+          information providers to join our platform.
         </p>
 
         {submitted ? (
@@ -38,7 +38,7 @@ export default function EarlyAccess() {
               Thank you for your interest!
             </h3>
             <p className="text-muted-foreground">
-              We've added you to our waitlist and will be in touch soon.
+              We&apos;ve added you to our waitlist and will be in touch soon.
             </p>
           </div>
         ) : (

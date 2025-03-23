@@ -1,10 +1,6 @@
 import Problem from "@/components/Problem";
 import Solution from "@/components/Solution";
 import Sources from "@/components/Sources";
-import ForContributors from "@/components/ForContributors";
-import EarlyAccess from "@/components/EarlyAccess";
-import CTA from "@/components/CTA";
-import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -22,10 +18,6 @@ export default function Home() {
           <Problem />
           <Solution />
           <Sources />
-          <ForContributors />
-          {/* <EarlyAccess />
-          <CTA />
-          <Footer /> */}
         </div>
       </div>
     </main>

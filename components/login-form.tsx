@@ -10,15 +10,23 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useActionState, useEffect } from "react";
-import { login } from "@/app/(auth)/actions";
 import { useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
+import { login } from "@/app/(auth)/actions";
+import { useActionState, useEffect } from "react";
+
+const initialState = {
+  errors: {
+    email: [],
+    password: [],
+  },
+};
+
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const [state, loginAction] = useActionState(login, undefined);
+  const [state, loginAction] = useActionState(login, initialState);
   const { pending } = useFormStatus();
   const router = useRouter();
 
@@ -43,77 +51,44 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={loginAction}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email" className="text-white">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="john@doe.com"
-                  required
-                  className="rounded-lg bg-[#071428] border-[#1a2b4b] text-white placeholder:text-gray-500"
-                />
-              </div>
+          <form action={loginAction} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                required
+              />
               {state?.errors?.email && (
                 <p className="text-sm text-red-500">{state.errors.email[0]}</p>
               )}
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password" className="text-white">
-                    Password
-                  </Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm text-gray-400 underline-offset-4 hover:text-white hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  className="rounded-lg bg-[#071428] border-[#1a2b4b] text-white"
-                />
-              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                required
+              />
               {state?.errors?.password && (
                 <p className="text-sm text-red-500">
                   {state.errors.password[0]}
                 </p>
               )}
-              <Button
-                type="submit"
-                className="w-full rounded-lg bg-white text-[#050e1d] hover:bg-gray-200"
-                disabled={pending}
-              >
-                Login
-              </Button>
-              <div className="flex items-center gap-4">
-                <div className="h-[1px] bg-[#1a2b4b] flex-grow"></div>
-                <span className="text-sm text-gray-400">Or</span>
-                <div className="h-[1px] bg-[#1a2b4b] flex-grow"></div>
-              </div>
-              <Button
-                variant="outline"
-                className="w-full rounded-lg border-[#1a2b4b] text-white hover:bg-[#1a2b4b]"
-              >
-                Login with Google
-              </Button>
             </div>
-            <div className="mt-4 text-center text-sm text-gray-400">
-              Don&apos;t have an account?{" "}
-              <a
-                href="/signup"
-                className="text-white underline underline-offset-4 hover:text-gray-200"
-              >
-                Sign up
-              </a>
-            </div>
+
+            {state?.errors?.general && (
+              <p className="text-sm text-red-500">{state.errors.general[0]}</p>
+            )}
+
+            <Button type="submit" className="w-full" disabled={pending}>
+              {pending ? "Signing in..." : "Sign in"}
+            </Button>
           </form>
         </CardContent>
         <div className="text-gray-500 text-center text-xs px-3 pb-6">

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Filter, Globe2, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, Globe2 } from "lucide-react";
 
 const features = [
   {
