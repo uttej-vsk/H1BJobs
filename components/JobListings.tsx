@@ -138,15 +138,20 @@ const JobListings = () => {
                 router.push(`/jobs/${job._id}`);
               }}
             >
-              <h3 className="text-xl font-semibold text-white flex items-center">
-                {job.title || job.source === "linkedin" ? (
-                  <Linkedin className="w-4 h-4 mr-2" />
-                ) : (
-                  `${
-                    job.source.charAt(0).toUpperCase() + job.source.slice(1)
-                  } job`
-                )}
-              </h3>
+              <div className="flex">
+                <h3 className="text-xl font-semibold text-white flex items-center">
+                  {job.title || job.source === "linkedin" ? (
+                    <Linkedin className="w-4 h-4 mr-2" />
+                  ) : (
+                    `${
+                      job.source.charAt(0).toUpperCase() + job.source.slice(1)
+                    } job`
+                  )}
+                </h3>
+                <span className=" rounded-xl px-2 py-1 text-sm text-center bg-[#1a2b4b] text-gray-300">
+                  {job.sharedJobType}
+                </span>
+              </div>
 
               <div className="flex items-center gap-2">
                 <span className="text-gray-300 font-medium mt-2">
@@ -174,29 +179,53 @@ const JobListings = () => {
                   {job.type}
                 </span>
               </div>
-
-              <div className="flex items-center mt-4 text-gray-400">
-                <span className="mr-4">Hiring Manager</span>
-                <span
-                  className={`px-2 py-1 ${
-                    job.type !== "" && "bg-[#1a2b4b] text-gray-300"
-                  } rounded-full text-sm`}
-                >
-                  <a
-                    href={job.hiringManagerProfileURL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-[#3b5998]"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
+              {job.hiringManagerProfileURL ? (
+                <div className="flex items-center mt-4 text-gray-400">
+                  <span className="mr-4">Hiring Manager</span>
+                  <span
+                    className={`px-2 py-1 ${
+                      job.type !== "" && "bg-[#1a2b4b] text-gray-300"
+                    } rounded-full text-sm`}
                   >
-                    {extractHiringManagerNameFromLinkedIn(
-                      job.hiringManagerProfileURL
-                    )}
-                  </a>
-                </span>
-              </div>
+                    <a
+                      href={job.hiringManagerProfileURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-[#3b5998]"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      {extractHiringManagerNameFromLinkedIn(
+                        job.hiringManagerProfileURL
+                      )}
+                    </a>
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center mt-4 text-gray-400">
+                  <span className="mr-4">Recruiter Details</span>
+                  <span
+                    className={`px-2 py-1 ${
+                      job.type !== "" && "bg-[#1a2b4b] text-gray-300"
+                    } rounded-full text-sm`}
+                  >
+                    <a
+                      href={job.recruiterProfileURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-[#3b5998]"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      {extractHiringManagerNameFromLinkedIn(
+                        job.recruiterProfileURL
+                      )}
+                    </a>
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="ml-4 shrink-0">

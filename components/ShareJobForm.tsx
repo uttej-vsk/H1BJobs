@@ -138,7 +138,6 @@ function ShareJobForm() {
                   className="font-medium"
                 >
                   Hiring Manager Profile URL{" "}
-                  <span className="text-red-500">*</span>
                 </label>
                 <Input
                   name="hiringManagerProfileURL"
@@ -148,7 +147,6 @@ function ShareJobForm() {
                   onChange={handleChange}
                   placeholder="Enter the hiring manager profile URL"
                   className="w-full"
-                  required
                 />
               </div>
 
