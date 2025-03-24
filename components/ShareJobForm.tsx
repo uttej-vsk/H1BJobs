@@ -17,6 +17,8 @@ function ShareJobForm() {
     companyName: "",
     jobType: "",
     recruiterProfileURL: "",
+    jobLocation: "",
+    shared_other_details: "",
   });
 
   // Debug log to confirm component mounting
@@ -25,7 +27,9 @@ function ShareJobForm() {
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -52,6 +56,8 @@ function ShareJobForm() {
     form.append("hiringManagerProfileURL", formData.hiringManagerProfileURL);
     form.append("jobTitle", formData.jobTitle);
     form.append("jobType", formData.jobType);
+    form.append("jobLocation", formData.jobLocation);
+    form.append("shared_other_details", formData.shared_other_details);
 
     shareJob(form);
 
@@ -64,6 +70,8 @@ function ShareJobForm() {
       companyName: "",
       jobType: "",
       recruiterProfileURL: "",
+      jobLocation: "",
+      shared_other_details: "",
     });
 
     toast.success("Job post has been shared successfully");
@@ -166,6 +174,21 @@ function ShareJobForm() {
               </div>
 
               <div className="flex flex-col gap-2">
+                <label htmlFor="jobLocation" className="font-medium">
+                  Job Location
+                </label>
+                <Input
+                  name="jobLocation"
+                  id="jobLocation"
+                  type="text"
+                  value={formData.jobLocation}
+                  onChange={handleChange}
+                  placeholder="Enter the job location"
+                  className="w-full"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
                 <label htmlFor="companyName" className="font-medium">
                   Company Name
                 </label>
@@ -210,6 +233,20 @@ function ShareJobForm() {
                   className="w-full"
                 />
               </div>
+            </div>
+            <div className="flex flex-col gap-2 mt-6">
+              <label htmlFor="shared_other_details" className="font-medium">
+                Other details
+              </label>
+              <textarea
+                name="shared_other_details"
+                id="shared_other_details"
+                value={formData.shared_other_details}
+                onChange={handleChange}
+                placeholder="Eg. We are looking for a software engineer with 3 years of experience in React and Node.js"
+                className="file:text-white placeholder:text-gray-500 bg-[#071428] border-[#1a2b4b] flex w-full min-w-0 rounded-md border px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm text-white"
+                rows={10}
+              />
             </div>
             <Button type="submit" variant="linkedin" className="w-full mt-6">
               Share job

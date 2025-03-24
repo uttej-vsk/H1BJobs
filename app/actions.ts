@@ -47,6 +47,8 @@ export async function shareJob(formData: FormData) {
   const sharedCompanyName = formData.get("companyName");
   const sharedJobType = formData.get("jobType");
   const recruiterProfileURL = formData.get("recruiterProfileURL");
+  const sharedJobLocation = formData.get("jobLocation");
+  const shared_other_details = formData.get("shared_other_details");
 
   console.log({
     source,
@@ -57,6 +59,8 @@ export async function shareJob(formData: FormData) {
     sharedCompanyName,
     sharedJobType,
     recruiterProfileURL,
+    sharedJobLocation,
+    shared_other_details,
   });
 
   await addSharedJobToDb({
@@ -69,6 +73,8 @@ export async function shareJob(formData: FormData) {
     sharedJobType,
     sharedCompanyName,
     recruiterProfileURL,
+    sharedJobLocation,
+    shared_other_details,
   });
   // Update data
   // Revalidate cache

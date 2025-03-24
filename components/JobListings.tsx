@@ -32,6 +32,7 @@ interface Job {
   sharedJobType: string;
   sharedCompanyName: string;
   timestamp?: string;
+  sharedJobLocation?: string;
 }
 
 const JobListings = () => {
@@ -138,7 +139,26 @@ const JobListings = () => {
                 router.push(`/jobs/${job._id}`);
               }}
             >
-              <div className="flex">
+              <div className="flex items-center gap-2 text-xl">
+                <span>{job.sharedJobTitle && job.sharedJobTitle}</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="text-gray-300 font-light mt-2">
+                  {job.isShared && !job.sharedCompanyName
+                    ? "Shared Job"
+                    : job.sharedCompanyName}
+                </span>
+
+                <span className="text-gray-500 text-sm mt-2">
+                  Added{" "}
+                  {formatTimestamp(
+                    job.posted_job_timestamp || job.shared_job_timestamp
+                  )}
+                </span>
+              </div>
+
+              <div className="flex mt-3 gap-2 text-center items-center">
                 <h3 className="text-xl font-semibold text-white flex items-center">
                   {job.title || job.source === "linkedin" ? (
                     <Linkedin className="w-4 h-4 mr-2" />
@@ -148,32 +168,21 @@ const JobListings = () => {
                     } job`
                   )}
                 </h3>
-                <span className=" rounded-xl px-2 py-1 text-sm text-center bg-[#1a2b4b] text-gray-300">
-                  {job.sharedJobType}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <span className="text-gray-300 font-medium mt-2">
-                  {job.isShared && !job.companyName
-                    ? "Shared Job"
-                    : job.companyName}
-                </span>
-                <span className="text-gray-500 text-sm mt-2">
-                  Added{" "}
-                  {formatTimestamp(
-                    job.posted_job_timestamp || job.shared_job_timestamp
-                  )}
-                </span>
+                {job.sharedJobType && (
+                  <span className=" rounded-xl px-2 py-1 text-sm text-center bg-[#1a2b4b] text-gray-300">
+                    {job.sharedJobType}
+                  </span>
+                )}
               </div>
 
               <div className="flex items-center mt-3 text-gray-400">
-                <span className="mr-4">{job.location}</span>
+                <span className="mr-4">
+                  {job.isShared ? job.sharedJobLocation : job.location}
+                </span>
                 <span
                   className={`${
-                    job.type
-                      ? "px-2 py-1 bg-[#1a2b4b] text-gray-300 rounded-full"
-                      : ""
+                    job.type &&
+                    "px-2 py-1 bg-[#1a2b4b] text-gray-300 rounded-full"
                   } text-sm`}
                 >
                   {job.type}
@@ -205,25 +214,27 @@ const JobListings = () => {
               ) : (
                 <div className="flex items-center mt-4 text-gray-400">
                   <span className="mr-4">Recruiter Details</span>
-                  <span
-                    className={`px-2 py-1 ${
-                      job.type !== "" && "bg-[#1a2b4b] text-gray-300"
-                    } rounded-full text-sm`}
-                  >
-                    <a
-                      href={job.recruiterProfileURL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-[#3b5998]"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
+                  {job.recruiterProfileURL && (
+                    <span
+                      className={`px-2 py-1 ${
+                        job.type !== "" && "bg-[#1a2b4b] text-gray-300"
+                      } rounded-full text-sm`}
                     >
-                      {extractHiringManagerNameFromLinkedIn(
-                        job.recruiterProfileURL
-                      )}
-                    </a>
-                  </span>
+                      <a
+                        href={job.recruiterProfileURL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-[#3b5998]"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        {extractHiringManagerNameFromLinkedIn(
+                          job.recruiterProfileURL
+                        )}
+                      </a>
+                    </span>
+                  )}
                 </div>
               )}
             </div>

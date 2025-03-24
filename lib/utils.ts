@@ -50,8 +50,10 @@ export function ensureHttpPrefix(url: string): string {
   return url.match(/^https?:\/\//) ? url : `https://${url}`;
 }
 
-export function extractHiringManagerNameFromLinkedIn(url: string): string {
-  if (!url) throw new Error("URL is required");
+export function extractHiringManagerNameFromLinkedIn(
+  url: string
+): string | undefined {
+  if (!url) return;
 
   const parts = url.split("/");
   const hiringManagerPart = parts.findIndex((part) => part.includes("in"));
