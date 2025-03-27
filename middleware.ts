@@ -123,9 +123,101 @@ const SUSPICIOUS_USER_AGENTS = [
   /Chrome\/133/,
 ];
 
+// Security: Rate limiting configuration
+const RATE_LIMIT = {
+  windowMs: 60 * 1000, // 1 minute
+  max: 100, // limit each IP to 100 requests per windowMs
+};
+
+// Security: Known malicious IP ranges (example)
+const BLOCKED_IP_RANGES = [
+  /^192\.168\.1\./, // Example: local network
+  /^10\.0\.0\./, // Example: private network
+  /^172\.16\.0\./, // Example: private network
+];
+
+// In-memory store for rate limiting (Note: This will reset on server restarts)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+// Helper function to check rate limit
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const record = rateLimitStore.get(ip);
+
+  if (!record || now > record.resetTime) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + RATE_LIMIT.windowMs });
+    return true;
+  }
+
+  if (record.count >= RATE_LIMIT.max) {
+    return false;
+  }
+
+  record.count++;
+  return true;
+}
+
+// Helper function to check if IP is blocked
+function isBlockedIP(ip: string): boolean {
+  return BLOCKED_IP_RANGES.some((range) => range.test(ip));
+}
+
+// Helper function to add security headers
+function addSecurityHeaders(response: NextResponse): NextResponse {
+  const headers = response.headers;
+
+  // Add security headers
+  headers.set("X-DNS-Prefetch-Control", "on");
+  headers.set(
+    "Strict-Transport-Security",
+    "max-age=31536000; includeSubDomains"
+  );
+  headers.set("X-Frame-Options", "SAMEORIGIN");
+  headers.set("X-Content-Type-Options", "nosniff");
+  headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  headers.set(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
+  );
+
+  return response;
+}
+
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
   const userAgent = req.headers.get("user-agent") || "";
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0] ||
+    req.headers.get("x-real-ip") ||
+    "unknown";
+
+  // Security: Check if IP is blocked
+  if (isBlockedIP(ip)) {
+    console.log(`Blocked request from blocked IP: ${ip}`);
+    return new NextResponse(null, {
+      status: 403,
+      statusText: "Forbidden",
+      headers: {
+        "Content-Type": "text/plain",
+        "X-Content-Type-Options": "nosniff",
+      },
+    });
+  }
+
+  // Security: Check rate limit
+  if (!checkRateLimit(ip)) {
+    console.log(`Rate limit exceeded for IP: ${ip}`);
+    return new NextResponse(null, {
+      status: 429,
+      statusText: "Too Many Requests",
+      headers: {
+        "Content-Type": "text/plain",
+        "Retry-After": "60",
+        "X-Content-Type-Options": "nosniff",
+      },
+    });
+  }
 
   // Security: Check for blocked paths
   const isBlockedPath = BLOCKED_PATHS.some((pattern) => pattern.test(path));
@@ -164,15 +256,18 @@ export default async function middleware(req: NextRequest) {
   const session = (await cookies()).get("session")?.value;
   const decyrpted_session = await decrypt(session);
 
+  let response: NextResponse;
+
   if (isProtectedRoutes && !decyrpted_session?.userId) {
-    return NextResponse.redirect(new URL("/login", req.nextUrl));
+    response = NextResponse.redirect(new URL("/login", req.nextUrl));
+  } else if (isPublicRoutes && decyrpted_session?.userId) {
+    response = NextResponse.redirect(new URL("/", req.nextUrl));
+  } else {
+    response = NextResponse.next();
   }
 
-  if (isPublicRoutes && decyrpted_session?.userId) {
-    return NextResponse.redirect(new URL("/", req.nextUrl));
-  }
-
-  return NextResponse.next();
+  // Add security headers to all responses
+  return addSecurityHeaders(response);
 }
 
 // Configure which paths the middleware should run on
