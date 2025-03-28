@@ -6,6 +6,16 @@ import { decrypt } from "./app/(auth)/lib/session";
 const protectedRoutes = ["/jobs", "/post-job"];
 const publicRoutes = ["/login", "/signup", "/"];
 
+// Public asset paths that should always be accessible
+const publicAssetPaths = [
+  "/images/",
+  "/assets/",
+  "/fonts/",
+  "/favicon.ico",
+  "/robots.txt",
+  "/sitemap.xml",
+];
+
 const allAvailableRoutes = [...protectedRoutes, ...publicRoutes];
 
 // Security: List of suspicious user agents (old Chrome versions)
@@ -107,32 +117,6 @@ const SUSPICIOUS_USER_AGENTS = [
   /Chrome\/133/,
 ];
 
-// Security: Rate limit to 20 requests per minute
-const RATE_LIMIT = {
-  windowMs: 60 * 1000,
-  max: 100,
-};
-
-// In memory: This will reset on server restarts
-const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const record = rateLimitStore.get(ip);
-
-  if (!record || now > record.resetTime) {
-    rateLimitStore.set(ip, { count: 1, resetTime: now + RATE_LIMIT.windowMs });
-    return true;
-  }
-
-  if (record.count >= RATE_LIMIT.max) {
-    return false;
-  }
-
-  record.count++;
-  return true;
-}
-
 // Helper function to add security headers
 function addSecurityHeaders(response: NextResponse): NextResponse {
   const headers = response.headers;
@@ -143,6 +127,7 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
     "Strict-Transport-Security",
     "max-age=31536000; includeSubDomains"
   );
+  headers.set("Cache-Control", "max-age=86400, no-cache, must-revalidate");
   headers.set("X-Frame-Options", "SAMEORIGIN");
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
@@ -155,6 +140,40 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
   return response;
 }
 
+// Helper function to check if path is allowed
+function isPathAllowed(path: string): boolean {
+  if (publicAssetPaths.some((assetPath) => path.startsWith(assetPath))) {
+    return true;
+  }
+  return allAvailableRoutes.some(
+    (pattern) => path === pattern || path.startsWith(`${pattern}/`)
+  );
+}
+
+// Helper function to create error response
+function createErrorResponse(
+  status: number,
+  message: string,
+  headers: Record<string, string> = {}
+): NextResponse {
+  return new NextResponse(
+    JSON.stringify({
+      error: message,
+      status,
+      timestamp: new Date().toISOString(),
+    }),
+    {
+      status,
+      statusText: message,
+      headers: {
+        "Content-Type": "application/json",
+        "X-Content-Type-Options": "nosniff",
+        ...headers,
+      },
+    }
+  );
+}
+
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
   const userAgent = req.headers.get("user-agent") || "";
@@ -163,32 +182,12 @@ export default async function middleware(req: NextRequest) {
     req.headers.get("x-real-ip") ||
     "unknown";
 
-  // // Security: Check rate limit
-  // if (!checkRateLimit(ip)) {
-  //   console.log(`Rate limit exceeded for IP: ${ip}`);
-  //   return new NextResponse(null, {
-  //     status: 429,
-  //     statusText: "Too Many Requests",
-  //     headers: {
-  //       "Content-Type": "text/plain",
-  //       "Retry-After": "60",
-  //       "X-Content-Type-Options": "nosniff",
-  //     },
-  //   });
-  // }
-
-  // Security: By default, block all paths except the ones in the allAvailableRoutes array
-  const isAllowedPath = allAvailableRoutes.some((pattern) => pattern === path);
-  if (!isAllowedPath) {
-    console.log(`Blocked request to ${path} from user agent: ${userAgent}`);
-    return new NextResponse(null, {
-      status: 403,
-      statusText: "Forbidden",
-      headers: {
-        "Content-Type": "text/plain",
-        "X-Content-Type-Options": "nosniff",
-      },
-    });
+  // Security: Check if path is allowed
+  if (!isPathAllowed(path)) {
+    console.log(
+      `Blocked request to ${path} from ${ip} with user agent ${userAgent}`
+    );
+    return createErrorResponse(403, "Access forbidden");
   }
 
   // Security: Check for suspicious user agents
@@ -197,14 +196,7 @@ export default async function middleware(req: NextRequest) {
   );
   if (isSuspiciousUserAgent) {
     console.log(`Blocked suspicious user agent: ${userAgent}`);
-    return new NextResponse(null, {
-      status: 403,
-      statusText: "Forbidden",
-      headers: {
-        "Content-Type": "text/plain",
-        "X-Content-Type-Options": "nosniff",
-      },
-    });
+    return createErrorResponse(403, "Suspicious user agent detected");
   }
 
   // Authentication: Check protected and public routes
@@ -236,8 +228,7 @@ export const config = {
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    "/((?!api|_next/static|_next/image).*)",
   ],
 };
