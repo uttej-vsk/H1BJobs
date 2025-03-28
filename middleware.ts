@@ -127,7 +127,7 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
     "Strict-Transport-Security",
     "max-age=31536000; includeSubDomains"
   );
-  headers.set("Cache-Control", "max-age=86400, no-cache, must-revalidate");
+  headers.set("Cache-Control", "max-age=300, immutable");
   headers.set("X-Frame-Options", "SAMEORIGIN");
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
@@ -223,12 +223,6 @@ export default async function middleware(req: NextRequest) {
 // Configure which paths the middleware should run on
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     */
-    "/((?!api|_next/static|_next/image).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|assets|images|fonts).*)",
   ],
 };
