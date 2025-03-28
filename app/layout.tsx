@@ -108,12 +108,6 @@ export default function RootLayout({
             src="https://cloud.umami.is/script.js"
             data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
             strategy="afterInteractive"
-            onLoad={() => {
-              console.log("Analytics loaded successfully");
-            }}
-            onError={(e) => {
-              console.error("Error loading analytics:", e);
-            }}
             crossOrigin="anonymous"
           />
         )}
