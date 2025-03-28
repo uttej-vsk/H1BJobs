@@ -4,9 +4,9 @@ import { decrypt } from "./app/(auth)/lib/session";
 
 // Authentication routes
 const protectedRoutes = ["/jobs", "/post-job"];
-const publicRoutes = ["/login", "/signup"];
+const publicRoutes = ["/login", "/signup", "/"];
 
-const allPaths = [...protectedRoutes, ...publicRoutes];
+const allAvailableRoutes = [...protectedRoutes, ...publicRoutes];
 
 // Security: List of suspicious user agents (old Chrome versions)
 const SUSPICIOUS_USER_AGENTS = [
@@ -177,8 +177,8 @@ export default async function middleware(req: NextRequest) {
     });
   }
 
-  // Security: By default, block all paths except the ones in the allPaths array
-  const isAllowedPath = allPaths.some((pattern) => pattern === path);
+  // Security: By default, block all paths except the ones in the allAvailableRoutes array
+  const isAllowedPath = allAvailableRoutes.some((pattern) => pattern === path);
   if (!isAllowedPath) {
     console.log(`Blocked request to ${path} from user agent: ${userAgent}`);
     return new NextResponse(null, {
