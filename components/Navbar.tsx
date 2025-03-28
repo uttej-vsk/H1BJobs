@@ -68,13 +68,22 @@ const Navbar = () => {
                 </Button>
               </>
             ) : (
-              <Button
-                variant="outline"
-                asChild
-                className="rounded-lg bg-white text-[#050e1d] border-transparent"
-              >
-                <Link href="/login">Find Jobs</Link>
-              </Button>
+              <>
+                <Button
+                  variant="outline"
+                  asChild
+                  className="rounded-lg bg-white text-[#050e1d] border-transparent"
+                >
+                  <Link href="/signup">Find Jobs</Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  asChild
+                  className="rounded-lg bg-white text-[#050e1d] border-transparent"
+                >
+                  <Link href="/signup">Post a Job</Link>
+                </Button>
+              </>
             )}
           </div>
         </nav>
