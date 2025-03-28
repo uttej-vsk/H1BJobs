@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { useActionState } from "react";
 import { signup } from "@/app/(auth)/actions";
 import { useFormStatus } from "react-dom";
+import Link from "next/link";
 
 const initialState = {
   errors: {
@@ -126,12 +127,13 @@ export function SignupForm({
             </div>
             <div className="mt-4 text-center text-sm text-gray-400">
               Already have an account?{" "}
-              <a
-                href="/login"
-                className="text-white underline underline-offset-4 hover:text-gray-200"
+              <Button
+                variant="outline"
+                asChild
+                className="rounded-lg bg-white text-[#050e1d] border-transparent h-8"
               >
-                Login
-              </a>
+                <Link href="/login">Login</Link>
+              </Button>
             </div>
           </form>
         </CardContent>
