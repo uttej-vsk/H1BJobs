@@ -6,23 +6,7 @@ import { decrypt } from "./app/(auth)/lib/session";
 const protectedRoutes = ["/jobs", "/post-job"];
 const publicRoutes = ["/login", "/signup"];
 
-// Security: List of blocked paths and patterns
-const BLOCKED_PATHS = [
-  /^\/wp-admin/,
-  /^\/wordpress\/wp-admin/,
-  /^\/wp-includes/,
-  /^\/wp-login/,
-  /^\/wp-content/,
-  /^\/wp-config/,
-  /^\/wp-mail/,
-  /^\/wp-cron/,
-  /^\/wp-signup/,
-  /^\/wp-activate/,
-  /^\/wp-register/,
-  /^\/wp-login\.php/,
-  /^\/wp-admin\.php/,
-  /^\/setup-config\.php/,
-];
+const allPaths = [...protectedRoutes, ...publicRoutes];
 
 // Security: List of suspicious user agents (old Chrome versions)
 const SUSPICIOUS_USER_AGENTS = [
@@ -123,23 +107,15 @@ const SUSPICIOUS_USER_AGENTS = [
   /Chrome\/133/,
 ];
 
-// Security: Rate limiting configuration
+// Security: Rate limit to 20 requests per minute
 const RATE_LIMIT = {
-  windowMs: 60 * 1000, // 1 minute
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 60 * 1000,
+  max: 20,
 };
 
-// Security: Known malicious IP ranges (example)
-const BLOCKED_IP_RANGES = [
-  /^192\.168\.1\./, // Example: local network
-  /^10\.0\.0\./, // Example: private network
-  /^172\.16\.0\./, // Example: private network
-];
-
-// In-memory store for rate limiting (Note: This will reset on server restarts)
+// In memory: This will reset on server restarts
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
-// Helper function to check rate limit
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const record = rateLimitStore.get(ip);
@@ -155,11 +131,6 @@ function checkRateLimit(ip: string): boolean {
 
   record.count++;
   return true;
-}
-
-// Helper function to check if IP is blocked
-function isBlockedIP(ip: string): boolean {
-  return BLOCKED_IP_RANGES.some((range) => range.test(ip));
 }
 
 // Helper function to add security headers
@@ -192,19 +163,6 @@ export default async function middleware(req: NextRequest) {
     req.headers.get("x-real-ip") ||
     "unknown";
 
-  // Security: Check if IP is blocked
-  if (isBlockedIP(ip)) {
-    console.log(`Blocked request from blocked IP: ${ip}`);
-    return new NextResponse(null, {
-      status: 403,
-      statusText: "Forbidden",
-      headers: {
-        "Content-Type": "text/plain",
-        "X-Content-Type-Options": "nosniff",
-      },
-    });
-  }
-
   // Security: Check rate limit
   if (!checkRateLimit(ip)) {
     console.log(`Rate limit exceeded for IP: ${ip}`);
@@ -219,9 +177,9 @@ export default async function middleware(req: NextRequest) {
     });
   }
 
-  // Security: Check for blocked paths
-  const isBlockedPath = BLOCKED_PATHS.some((pattern) => pattern.test(path));
-  if (isBlockedPath) {
+  // Security: By default, block all paths except the ones in the allPaths array
+  const isAllowedPath = allPaths.some((pattern) => pattern === path);
+  if (!isAllowedPath) {
     console.log(`Blocked request to ${path} from user agent: ${userAgent}`);
     return new NextResponse(null, {
       status: 403,
