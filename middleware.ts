@@ -163,19 +163,19 @@ export default async function middleware(req: NextRequest) {
     req.headers.get("x-real-ip") ||
     "unknown";
 
-  // Security: Check rate limit
-  if (!checkRateLimit(ip)) {
-    console.log(`Rate limit exceeded for IP: ${ip}`);
-    return new NextResponse(null, {
-      status: 429,
-      statusText: "Too Many Requests",
-      headers: {
-        "Content-Type": "text/plain",
-        "Retry-After": "60",
-        "X-Content-Type-Options": "nosniff",
-      },
-    });
-  }
+  // // Security: Check rate limit
+  // if (!checkRateLimit(ip)) {
+  //   console.log(`Rate limit exceeded for IP: ${ip}`);
+  //   return new NextResponse(null, {
+  //     status: 429,
+  //     statusText: "Too Many Requests",
+  //     headers: {
+  //       "Content-Type": "text/plain",
+  //       "Retry-After": "60",
+  //       "X-Content-Type-Options": "nosniff",
+  //     },
+  //   });
+  // }
 
   // Security: By default, block all paths except the ones in the allAvailableRoutes array
   const isAllowedPath = allAvailableRoutes.some((pattern) => pattern === path);
