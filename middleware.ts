@@ -206,11 +206,13 @@ export default async function middleware(req: NextRequest) {
   const session = (await cookies()).get("session")?.value;
   const decyrpted_session = await decrypt(session);
 
+  const isAuthenticated = !!decyrpted_session?.userId;
+
   let response: NextResponse;
 
-  if (isProtectedRoutes && !decyrpted_session?.userId) {
+  if (isProtectedRoutes && !isAuthenticated) {
     response = NextResponse.redirect(new URL("/login", req.nextUrl));
-  } else if (isPublicRoutes && decyrpted_session?.userId) {
+  } else if (isPublicRoutes && isAuthenticated) {
     response = NextResponse.redirect(new URL("/", req.nextUrl));
   } else {
     response = NextResponse.next();
