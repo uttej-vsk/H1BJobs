@@ -199,23 +199,26 @@ export default async function middleware(req: NextRequest) {
     return createErrorResponse(403, "Suspicious user agent detected");
   }
 
-  // Authentication: Check protected and public routes
-  const isProtectedRoutes = protectedRoutes.includes(path);
-  const isPublicRoutes = publicRoutes.includes(path);
-
   const session = (await cookies()).get("session")?.value;
   const decyrpted_session = await decrypt(session);
-
   const isAuthenticated = !!decyrpted_session?.userId;
 
   let response: NextResponse;
 
-  if (isProtectedRoutes && !isAuthenticated) {
-    response = NextResponse.redirect(new URL("/login", req.nextUrl));
-  } else if (isPublicRoutes && isAuthenticated) {
-    response = NextResponse.redirect(new URL("/", req.nextUrl));
+  if (isAuthenticated) {
+    // Authenticated users should be redirected to dashboard from certain paths
+    if (publicRoutes.includes(path)) {
+      response = NextResponse.redirect(new URL("/jobs", req.nextUrl));
+    } else {
+      response = NextResponse.next();
+    }
   } else {
-    response = NextResponse.next();
+    // Unauthenticated users trying to access protected routes should be redirected to login
+    if (protectedRoutes.includes(path)) {
+      response = NextResponse.redirect(new URL("/login", req.nextUrl));
+    } else {
+      response = NextResponse.next();
+    }
   }
 
   // Add security headers to all responses
