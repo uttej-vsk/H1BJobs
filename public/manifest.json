@@ -1,0 +1,21 @@
+{
+  "name": "Status Hired",
+  "short_name": "StatusHired",
+  "description": "Find and post H1B sponsored jobs",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050e1d",
+  "theme_color": "#050e1d",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
