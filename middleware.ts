@@ -110,7 +110,7 @@ const SUSPICIOUS_USER_AGENTS = [
 // Security: Rate limit to 20 requests per minute
 const RATE_LIMIT = {
   windowMs: 60 * 1000,
-  max: 20,
+  max: 100,
 };
 
 // In memory: This will reset on server restarts
