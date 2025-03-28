@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "sonner";
+import Script from "next/script";
+import { CookieConsent } from "@/components/CookieConsent";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.statushired.com"),
@@ -92,18 +94,29 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#050e1d" />
-        <script
-          defer
-          src="https://cloud.umami.is/script.js"
-          data-website-id="50c34282-633a-4452-a4f6-5e93ec20d38f"
-        ></script>
       </head>
       <body className="antialiased bg-[#050e1d] text-white">
         <div className="min-h-screen flex flex-col">
           <Navbar />
           {children}
           <Toaster position="bottom-right" richColors closeButton />
+          <CookieConsent />
         </div>
+        {process.env.NODE_ENV === "production" && (
+          <Script
+            id="umami-analytics"
+            src="https://cloud.umami.is/script.js"
+            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+            strategy="afterInteractive"
+            onLoad={() => {
+              console.log("Analytics loaded successfully");
+            }}
+            onError={(e) => {
+              console.error("Error loading analytics:", e);
+            }}
+            crossOrigin="anonymous"
+          />
+        )}
       </body>
     </html>
   );

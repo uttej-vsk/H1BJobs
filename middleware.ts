@@ -14,6 +14,7 @@ const publicAssetPaths = [
   "/favicon.ico",
   "/robots.txt",
   "/sitemap.xml",
+  "/manifest.json",
 ];
 
 const allAvailableRoutes = [...protectedRoutes, ...publicRoutes];
