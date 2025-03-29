@@ -92,11 +92,12 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#050e1d" />
         <Script
           src="https://cloud.umami.is/script.js"
           data-website-id="50c34282-633a-4452-a4f6-5e93ec20d38f"
+          strategy="afterInteractive"
         />
+        <meta name="theme-color" content="#050e1d" />
       </head>
       <body className="antialiased bg-[#050e1d] text-white">
         <div className="min-h-screen flex flex-col">
