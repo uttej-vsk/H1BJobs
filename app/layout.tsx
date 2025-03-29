@@ -94,7 +94,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <Script
           src="https://cloud.umami.is/script.js"
-          data-website-id="50c34282-633a-4452-a4f6-5e93ec20d38f"
+          data-website-id={process.env.NEXT_UMAMI_WEBSITE_ID}
           strategy="afterInteractive"
         />
         <meta name="theme-color" content="#050e1d" />

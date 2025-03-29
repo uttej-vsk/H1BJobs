@@ -135,7 +135,7 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
   headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
   headers.set(
     "Content-Security-Policy",
-    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cloud.umami.is; style-src 'self' 'unsafe-inline';"
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cloud.umami.is; connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev; style-src 'self' 'unsafe-inline';"
   );
 
   return response;
