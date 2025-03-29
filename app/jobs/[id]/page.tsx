@@ -36,7 +36,7 @@ export default async function JobDetailPage({ params }: Props) {
       <div className="bg-[#0a1729] border border-[#1a2b4b] rounded-lg p-8">
         <div className="flex justify-between items-start flex-wrap mb-6">
           <div>
-            {job.title && job.title !== "Untitled Job" && (
+            {job.title && job.title !== "null" && (
               <h1 className="text-3xl font-bold text-white">{job.title}</h1>
             )}
             <div className="flex items-center gap-2 mt-2">
@@ -46,7 +46,7 @@ export default async function JobDetailPage({ params }: Props) {
                 </span>
               )}
               <span className="text-gray-500 text-sm">
-                {formatTimestamp(job.timestamp)}
+                Updated: {formatTimestamp(job.timestamp)}
               </span>
             </div>
           </div>
@@ -73,14 +73,34 @@ export default async function JobDetailPage({ params }: Props) {
             </div>
           )}
 
-          {job.type && (
-            <div className="flex items-center">
-              <span className="text-gray-400 mr-2">Job Type:</span>
-              <span className="text-white font-medium px-3 py-1 bg-[#1a2b4b] rounded-full text-sm">
-                {job.type}
-              </span>
-            </div>
-          )}
+          {job.title ||
+            (job.sharedJobTitle && (
+              <div className="flex items-center">
+                <span className="text-gray-400 mr-2">Job title:</span>
+                <span className="text-white font-medium px-3 py-1 bg-[#1a2b4b] rounded-full text-sm">
+                  {job.isShared && job.sharedJobTitle}
+                </span>
+              </div>
+            ))}
+
+          {job.companyName ||
+            (job.sharedCompanyName && (
+              <div className="flex items-center">
+                <span className="text-gray-400 mr-2">Company:</span>
+                <span className="text-white font-medium px-3 py-1 bg-[#1a2b4b] rounded-full text-sm">
+                  {job.companyName || job.sharedCompanyName}
+                </span>
+              </div>
+            ))}
+          {job.type ||
+            (job.sharedJobType && (
+              <div className="flex items-center">
+                <span className="text-gray-400 mr-2">Job Type:</span>
+                <span className="text-white font-medium px-3 py-1 bg-[#1a2b4b] rounded-full text-sm">
+                  {job.type || job.sharedJobType}
+                </span>
+              </div>
+            ))}
 
           {job.salary && (
             <div className="flex items-center">
@@ -101,43 +121,44 @@ export default async function JobDetailPage({ params }: Props) {
           </div>
         )}
 
-        {job.hiringManagerProfileURL && (
-          <div className="mt-6">
-            <h2 className="text-xl font-semibold text-white mb-4">
-              Hiring Manager
-            </h2>
-            <div className="flex items-center gap-4">
-              <span className="text-gray-300">
-                {extractHiringManagerNameFromLinkedIn(
-                  job.hiringManagerProfileURL
-                )}
-              </span>
-              <a
-                href={job.hiringManagerProfileURL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-400 flex items-center gap-2"
-              >
-                <span>View Profile</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+        {job.hiringManagerProfileURL ||
+          (job.recruiterProfileURL && (
+            <div className="mt-6">
+              <h2 className="text-xl font-semibold text-white mb-4">
+                {job.hiringManagerProfileURL ? "Hiring Manager" : "Recruiter"}
+              </h2>
+              <div className="flex items-center gap-4">
+                <span className="text-gray-300">
+                  {extractHiringManagerNameFromLinkedIn(
+                    job.hiringManagerProfileURL || job.recruiterProfileURL
+                  )}
+                </span>
+                <a
+                  href={job.hiringManagerProfileURL || job.recruiterProfileURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-400 flex items-center gap-2"
                 >
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-              </a>
+                  <span>View Profile</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </a>
+              </div>
             </div>
-          </div>
-        )}
+          ))}
 
         {job.source && (
           <div className="mt-8 pt-6 border-t border-[#1a2b4b]">
